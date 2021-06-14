@@ -14,6 +14,6 @@ public class KNN {
     }
 
     public void train(double[][] trainingData){
-       StartingLayerNeuron.initWeights();
+       StartingLayerNeuron.initWeights(startingNeurons);
     }
 }

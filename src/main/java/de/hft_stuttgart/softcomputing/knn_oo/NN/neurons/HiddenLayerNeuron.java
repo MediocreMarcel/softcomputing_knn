@@ -16,7 +16,6 @@ public class HiddenLayerNeuron extends Neuron{
     public static Map<Neuron, Double> initHiddenLayer(Map<Neuron, Double> parents, int[] structureNN){
 
         List<Neuron> currentLayer = new LinkedList<>();
-        currentLayer.add(new HiddenLayerNeuron(parents, true));
         for (int i = 1; i < structureNN[0]; i++) {
             currentLayer.add(new HiddenLayerNeuron(parents));
         }
@@ -25,6 +24,8 @@ public class HiddenLayerNeuron extends Neuron{
 
         if (structureNN.length > 1){
             Map<Neuron, Double> childrenMap = initHiddenLayer(currentLayerMap, Arrays.copyOfRange(structureNN, 1, structureNN.length));
+
+            addBias(parents, currentLayer, currentLayerMap);
 
             //set Child for each neuron in this starting layer
             for (Neuron neuron : currentLayer) {
@@ -35,6 +36,8 @@ public class HiddenLayerNeuron extends Neuron{
             Map<Neuron, Double> endingLayerMap = new HashMap<>();
             endingLayerMap.put(endingLayerNeuron, 0.0);
 
+            addBias(parents, currentLayer, currentLayerMap);
+
             for (Neuron neuron:currentLayer) {
                 neuron.children = endingLayerMap;
             }
@@ -42,5 +45,11 @@ public class HiddenLayerNeuron extends Neuron{
 
 
         return currentLayerMap;
+    }
+
+    private static void addBias(Map<Neuron, Double> parents, List<Neuron> currentLayer, Map<Neuron, Double> currentLayerMap) {
+        Neuron bias = new HiddenLayerNeuron(parents, true);
+        currentLayer.add(bias);
+        currentLayerMap.put(bias, 1.0);
     }
 }

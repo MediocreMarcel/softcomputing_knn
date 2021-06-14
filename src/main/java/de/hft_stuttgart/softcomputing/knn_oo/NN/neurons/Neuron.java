@@ -1,14 +1,12 @@
 package de.hft_stuttgart.softcomputing.knn_oo.NN.neurons;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Neuron {
 
-    public Map<Neuron, Double> parents;
-    public Map<Neuron, Double> children;
-    public boolean isBias = false;
+    protected Map<Neuron, Double> parents;
+    protected Map<Neuron, Double> children;
+    protected boolean isBias = false;
     protected double input;
     protected double output;
     protected double delta;
@@ -24,7 +22,7 @@ public class Neuron {
         return layerMap;
     }
 
-    public double getRandomWeight(){
+    public static double getRandomWeight(){
         double weight = Math.random();
         return Math.random() < 0.5 ? -weight: weight;
     }
@@ -33,6 +31,8 @@ public class Neuron {
     protected void setParentWeight(Neuron neuron, double weight){
             if(this.parents.containsKey(neuron)){
                 this.parents.put(neuron, weight);
+            } else if(neuron.isBias){
+                return; //Not sure if this is correct
             } else{
                 System.exit(1);
             }
@@ -55,6 +55,35 @@ public class Neuron {
             } else{
                 System.exit(1);
             }
+        }
+    }
+
+    public static void initWeights(List<Neuron> neuronLayer) {
+        for (Neuron neuron : neuronLayer) {
+            if (neuron instanceof EndingLayerNeuron){
+                return;
+            }
+            neuron.children.keySet().stream().forEach(x -> {
+                double randomWeight = neuron.getRandomWeight();
+                neuron.children.put(x, randomWeight);
+                x.setParentWeight(neuron, randomWeight);
+                initWeights(x);
+            });
+        }
+    }
+
+    public static void initWeights(Neuron currentNeuron) {
+        if (currentNeuron instanceof EndingLayerNeuron){
+            return;
+        }
+
+        Map<Neuron, Double> neuronChildren = currentNeuron.children;
+        List<Neuron> childNeurons = new ArrayList<>(neuronChildren.keySet());
+        for (Neuron childNeuron: childNeurons){
+            double randomWeight = getRandomWeight();
+            neuronChildren.put(childNeuron, randomWeight);
+            childNeuron.setParentWeight(currentNeuron, randomWeight);
+            initWeights(childNeurons);
         }
     }
 }

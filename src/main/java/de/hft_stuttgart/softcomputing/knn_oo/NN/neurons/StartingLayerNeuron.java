@@ -35,13 +35,5 @@ public class StartingLayerNeuron extends Neuron {
         return currentLayer;
     }
 
-    public static void initWeights() {
-        for (Neuron neuron : currentLayer) {
-            neuron.children.keySet().stream().forEach(x -> {
-                double randomWeight = neuron.getRandomWeight();
-                neuron.children.put(x, randomWeight);
-                x.setParentWeight(neuron, randomWeight);
-            });
-        }
-    }
+
 }
