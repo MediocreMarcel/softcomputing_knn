@@ -5,7 +5,7 @@ import java.util.*;
 public class HiddenLayerNeuron extends Neuron{
 
     public HiddenLayerNeuron(Map<Neuron, Double> parents) {
-        this.parents = parents;
+        this.parents = new HashMap<>(parents);
     }
 
     public HiddenLayerNeuron(Map<Neuron, Double> parents, boolean isBias) {

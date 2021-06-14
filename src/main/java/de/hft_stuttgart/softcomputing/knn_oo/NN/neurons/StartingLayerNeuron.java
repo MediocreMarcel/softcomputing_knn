@@ -16,7 +16,7 @@ public class StartingLayerNeuron extends Neuron {
         this.isBias = isBias;
     }
 
-    public static List<Neuron> initStartingLayer(int dimension, int[] structureNN){
+    public static List<Neuron> initStartingLayer(int dimension, int[] structureNN) {
         //creating bias
         currentLayer.add(new StartingLayerNeuron(true));
         //init starting layer objects
@@ -25,14 +25,23 @@ public class StartingLayerNeuron extends Neuron {
         }
 
         //create hiddenlayer
-        Map<Neuron, Double> childrenMap = HiddenLayerNeuron.initHiddenLayer(createLayerMap(currentLayer),structureNN);
+        Map<Neuron, Double> childrenMap = HiddenLayerNeuron.initHiddenLayer(createLayerMap(currentLayer), structureNN);
 
         //set Child for each neuron in this starting layer
         for (Neuron neuron : currentLayer) {
             neuron.children = new HashMap<>(childrenMap);//create a unique map for each neuron
         }
 
-
         return currentLayer;
+    }
+
+    public static void initWeights() {
+        for (Neuron neuron : currentLayer) {
+            neuron.children.keySet().stream().forEach(x -> {
+                double randomWeight = neuron.getRandomWeight();
+                neuron.children.put(x, randomWeight);
+                x.setParentWeight(neuron, randomWeight);
+            });
+        }
     }
 }

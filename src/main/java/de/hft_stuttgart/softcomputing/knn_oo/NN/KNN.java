@@ -7,11 +7,13 @@ import java.util.List;
 
 public class KNN {
 
+    List<Neuron> startingNeurons = null;
+
     public KNN(int inputCount, int[] numberOfNeuronsPerHiddenLayer) {
-        List<Neuron> startingNeuron = StartingLayerNeuron.initStartingLayer(inputCount, numberOfNeuronsPerHiddenLayer);
+        startingNeurons = StartingLayerNeuron.initStartingLayer(inputCount, numberOfNeuronsPerHiddenLayer);
     }
 
     public void train(double[][] trainingData){
-
+       StartingLayerNeuron.initWeights();
     }
 }
