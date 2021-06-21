@@ -18,7 +18,9 @@ public class StartingLayerNeuron extends Neuron {
 
     public static List<Neuron> initStartingLayer(int dimension, int[] structureNN) {
         //creating bias
-        currentLayer.add(new StartingLayerNeuron(true));
+        Neuron bias = new StartingLayerNeuron(true);
+        bias.output = 1.0;
+        currentLayer.add(bias);
         //init starting layer objects
         for (int i = 0; i < dimension; i++) {
             currentLayer.add(new StartingLayerNeuron());
@@ -35,5 +37,15 @@ public class StartingLayerNeuron extends Neuron {
         return currentLayer;
     }
 
+    @Override
+    protected void calculateForward() {
+        //Not needed in Starting layer
+        throw new UnsupportedOperationException();
+    }
 
+    @Override
+    protected void calculateBackward() {
+        //Not needed in Starting layer
+        throw new UnsupportedOperationException();
+    }
 }
