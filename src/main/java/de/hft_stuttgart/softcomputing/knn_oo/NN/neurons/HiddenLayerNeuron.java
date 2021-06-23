@@ -33,11 +33,11 @@ public class HiddenLayerNeuron extends Neuron {
                 neuron.children = new HashMap<>(childrenMap);//create a unique map for each neuron
             }
         } else if (structureNN.length == 1) {
-            EndingLayerNeuron endingLayerNeuron = new EndingLayerNeuron(createLayerMap(currentLayer));
-            Map<Neuron, Double> endingLayerMap = new HashMap<>();
-            endingLayerMap.put(endingLayerNeuron, 0.0);
+            EndingLayerNeuron endingLayerNeuron = new EndingLayerNeuron(currentLayerMap);
 
             for (Neuron neuron : currentLayer) {
+                Map<Neuron, Double> endingLayerMap = new HashMap<>();
+                endingLayerMap.put(endingLayerNeuron, 0.0);
                 neuron.children = endingLayerMap;
             }
         }
@@ -55,11 +55,11 @@ public class HiddenLayerNeuron extends Neuron {
 
     protected void calculateForward() {
         input = 0.0;
-        parents.forEach((neuron, weight) -> {
-            if (neuron.isBias) {
+        parents.forEach((parentNeuron, weight) -> {
+            if (parentNeuron.isBias) {
                 return;
             }
-            input += neuron.output * weight;
+            input += parentNeuron.output * weight;
         });
         output = sigmoidFunction(input);
     }
@@ -87,7 +87,4 @@ public class HiddenLayerNeuron extends Neuron {
         delta = derivativeSigmoidFunction(input) * sum;
     }
 
-    public void startBackwardOnParents(){
-
-    }
 }

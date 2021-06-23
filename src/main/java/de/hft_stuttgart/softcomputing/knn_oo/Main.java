@@ -10,10 +10,13 @@ public class Main {
     public static void main(String[] args) {
         double[][] data = Einlesen.einlesenDiabetes(new File("diabetes.csv"), true);
         int dimension    = data[0].length-1;
-        int[] structureNN = {2, 3, 25};//anzahl Knoten (incl. Bias) pro Hiddenschicht
+        int[] structureNN = {3, 3, 3};//anzahl Knoten (incl. Bias) pro Hiddenschicht
 
         KNN network   = new KNN(dimension, structureNN);
         network.train(data);
+
+        data = Einlesen.einlesenDiabetes(new File("diabetes.csv"), true);
+        network.evaluate(data);
     }
 
 }

@@ -21,7 +21,11 @@ public class EndingLayerNeuron extends Neuron {
         });
         output = sigmoidFunction(input);
 
-        calculateBackward();
+        KNN.currentOutcome = output;
+
+        if (KNN.networkState.equals(KNN.NetworkState.TRAIN)){
+            calculateBackward();
+        }
     }
 
     @Override

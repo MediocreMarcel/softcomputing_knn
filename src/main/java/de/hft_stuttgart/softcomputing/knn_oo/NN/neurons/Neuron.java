@@ -11,7 +11,7 @@ public abstract class Neuron {
     protected double output;
     protected double delta;
 
-    protected static final double alpha = 1.0;
+    protected static final double alpha = 0.5;
 
     protected static Map<Neuron, Double> createLayerMap(List<Neuron> layer) {
         Map<Neuron, Double> layerMap = new HashMap<>();
@@ -30,8 +30,6 @@ public abstract class Neuron {
     protected void setParentWeight(Neuron neuron, double weight) {
         if (this.parents.containsKey(neuron)) {
             this.parents.put(neuron, weight);
-        } else if (neuron.isBias) {
-            return; //Not sure if this is correct
         } else {
             System.exit(1);
         }
