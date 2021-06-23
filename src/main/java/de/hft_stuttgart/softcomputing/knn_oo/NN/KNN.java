@@ -19,13 +19,27 @@ public class KNN {
         startingNeurons = StartingLayerNeuron.initStartingLayer(inputCount, numberOfNeuronsPerHiddenLayer);
     }
 
-    public void train(double[][] trainingData) {
+    public void train(double[][] trainingData, int maxEpoch) {
+        boolean stop = false;
+        int epoch = 0;
+
         StartingLayerNeuron.initWeights(startingNeurons);
-        for (int i = 0; i < trainingData.length; i++) {
-            currentDataRow = trainingData[i];
-            for (int j = 0; j < trainingData[i].length - 1 /*ignore outcome*/; j++)
-                startingNeurons.get(j+1).setOutput(currentDataRow[j]); //+1 because bias is at position 0
-            startingNeurons.get(0).startForwardOnChildren();
+
+        while (!stop){
+            epoch++;
+
+            for (int i = 0; i < trainingData.length; i++) {
+                currentDataRow = trainingData[i];
+                for (int j = 0; j < trainingData[i].length - 1 /*ignore outcome*/; j++)
+                    startingNeurons.get(j+1).setOutput(currentDataRow[j]); //+1 because bias is at position 0
+
+                startingNeurons.get(0).startForwardOnChildren();
+            }
+
+            System.out.println("Epoche: " + epoch);
+
+            if (epoch == maxEpoch)
+                stop = true;
         }
 
 

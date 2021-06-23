@@ -35,6 +35,14 @@ public abstract class Neuron {
         }
     }
 
+    protected void setChildWeight(Neuron neuron, double weight) {
+        if (this.children.containsKey(neuron)) {
+            this.children.put(neuron, weight);
+        } else {
+            System.exit(1);
+        }
+    }
+
     protected void setParentsWeight(Map<Neuron, Double> map) {
         for (Neuron neuron : map.keySet()) {
             if (this.parents.containsKey(neuron)) {
@@ -111,7 +119,7 @@ public abstract class Neuron {
     protected void updateWeightOnStartingLayer(Map.Entry<Neuron, Double> entry){
         double weight = entry.getValue() - alpha * entry.getKey().output * delta;
         entry.setValue(weight);
-        this.parents.put(entry.getKey(), weight);
+        entry.getKey().setChildWeight(this, weight);
     }
 
 

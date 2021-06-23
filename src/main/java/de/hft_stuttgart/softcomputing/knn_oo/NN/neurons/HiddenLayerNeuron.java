@@ -56,9 +56,6 @@ public class HiddenLayerNeuron extends Neuron {
     protected void calculateForward() {
         input = 0.0;
         parents.forEach((parentNeuron, weight) -> {
-            if (parentNeuron.isBias) {
-                return;
-            }
             input += parentNeuron.output * weight;
         });
         output = sigmoidFunction(input);
