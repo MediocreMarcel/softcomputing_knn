@@ -5,9 +5,10 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 
-
-
-
+/**
+ * Einlesen Klasse kopiert von Vorlage
+ * @Author Homberger
+ */
 public class Einlesen {
 
 		

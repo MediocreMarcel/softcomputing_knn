@@ -2,6 +2,10 @@ package de.hft_stuttgart.softcomputing.knn_oo.NN.neurons;
 
 import java.util.*;
 
+/**
+ * Class initializes hidden layers, including Bias Neurons. It also contains
+ * the Forward and Backward calculation
+ */
 public class HiddenLayerNeuron extends Neuron {
 
     public HiddenLayerNeuron(Map<Neuron, Double> parents) {

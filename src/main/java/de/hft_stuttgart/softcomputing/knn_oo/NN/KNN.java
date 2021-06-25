@@ -5,24 +5,51 @@ import de.hft_stuttgart.softcomputing.knn_oo.NN.neurons.StartingLayerNeuron;
 
 import java.util.List;
 
-
+/**
+ * Class handles the starting layer, the training and the evaluation
+ */
 public class KNN {
     public enum NetworkState {TRAIN, EVALUATE};
 
+    /**
+     * Holds the current data row out of the dataset
+     */
     public static double[] currentDataRow;
+
+    /**
+     *  state of the network training or evluation
+     */
     public static NetworkState networkState = NetworkState.TRAIN;
+
+    /**
+     * holds the value of the ending layer neuron
+     */
     public static double currentOutcome = 0.0;
 
+    /**
+     * holds starting neurons
+     */
     List<Neuron> startingNeurons = null;
 
+    /**
+     * initializes the network
+     * @param inputCount number of dataset parameters => Number of starting layer neurons
+     * @param numberOfNeuronsPerHiddenLayer array holding the number of neurons per hidden layer (incl. Bias)
+     */
     public KNN(int inputCount, int[] numberOfNeuronsPerHiddenLayer) {
         startingNeurons = StartingLayerNeuron.initStartingLayer(inputCount, numberOfNeuronsPerHiddenLayer);
     }
 
+    /**
+     * starts the training of the Network
+     * @param trainingData data that the network should train from
+     * @param maxEpoch number of epochs that the network should train
+     */
     public void train(double[][] trainingData, int maxEpoch) {
         boolean stop = false;
         int epoch = 0;
 
+        //init weights with random values
         StartingLayerNeuron.initWeights(startingNeurons);
 
         while (!stop){
@@ -42,10 +69,14 @@ public class KNN {
                 stop = true;
         }
 
-
+        //set state to evaluate after the network finished training
         networkState = NetworkState.EVALUATE;
     }
 
+    /**
+     * evaluates the network by comparing the outcome of the network against the expected result
+     * @param data data that should be used to perform the evaluation
+     */
     public void evaluate(double[][] data) {
         int falsePositive = 0;
         int truePositive = 0;
