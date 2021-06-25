@@ -11,7 +11,7 @@ public abstract class Neuron {
     protected double output;
     protected double delta;
 
-    protected static final double alpha = 0.5;
+    protected static final double alpha = 0.4;
 
     protected static Map<Neuron, Double> createLayerMap(List<Neuron> layer) {
         Map<Neuron, Double> layerMap = new HashMap<>();
